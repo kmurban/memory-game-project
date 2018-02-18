@@ -1,10 +1,10 @@
 body {
-	width: 90vw;
+	width: 100vw;
+	font-family: "Montserrat", Verdana, sans-serif;
 }
 
 header {
 	text-align: center;
-
 }
 
 h1 {
@@ -13,5 +13,35 @@ h1 {
 }
 
 button {
-	
+	background-color: #ffffff;
+    border: 1px solid black;
+    border-radius: 2px;
+    color: black;
+    padding: 5px;
+}
+
+.reset {
+	display: none;
+}
+
+.reset-button {
+	margin: 10px;
+}
+
+.play-buttons {
+
+}
+
+.game-data {
+	display: none;
+}
+
+.game-grid {
+
+
+}
+
+.win-popup {
+
+
 }
