@@ -7,17 +7,16 @@ header {
 	text-align: center;
 }
 
-h1 {
-
-
-}
-
 button {
 	background-color: #ffffff;
     border: 1px solid black;
     border-radius: 2px;
     color: black;
     padding: 5px;
+}
+
+main {
+	text-align: center;
 }
 
 .reset {
@@ -37,8 +36,23 @@ button {
 }
 
 .game-grid {
+	width: 70%;
+	margin-top: 20px;
+	margin-left: 15%;
+	margin-right: 15%;
+}
 
+.game-row {
+	display: block;
+	width: 100%;
+	text-align: center;
+}
 
+.game-cell {
+	background-color: blue;
+	display: inline-block;
+	box-sizing: border-box;
+	border: 3px solid white;
 }
 
 .win-popup {
