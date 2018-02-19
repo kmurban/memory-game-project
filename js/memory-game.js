@@ -20,8 +20,8 @@ $('button').mouseout(function(){
 
 /*Initialize the grid when the user selects a play levele*/
 $('.play-regular').click(function(){
-	makeGrid(4);
-	createImages(4);
+	makeGrid(2);
+	createImages(2);
 });
 
 $('.play-hard').click(function(){
@@ -37,12 +37,19 @@ $('.play-button').click(function(){
 	$('.move-counter').text('Moves: '+String(moves));
 });
 
-/*Clear the grid and bring the Play buttons back up when the user clicks the Start Over button*/
-$('.reset-button').click(function(){
+/*Clear the grid and bring the Play buttons back up*/
+function clearGrid() {
 	$('.game-row').remove();
 	$('.play-buttons').css('display','block');
 	$('.game-data').css('display','none');
 	$('.reset').css('display','none');
+	resetImages();
+	matches = 0;
+}
+
+/*Clear the grid when the user clicks the Start Over button*/
+$('.reset-button').click(function(){
+	clearGrid();
 });
 
 /*Helper functions for makeGrid: makeRows creates stacked rows (divs) of the correct height
@@ -123,8 +130,39 @@ function checkMatch() {
 		$(imageOne).attr('alt','matched');
 		$(imageTwo).attr('alt','matched');
 		setTimeout(resetImages,100);
+		setTimeout(incrementMoves,100);
 	}
 }
+
+
+function declareWin() {
+	$('.win-popup').css('display','block');
+	$('.move-score').text(moves);
+	$('.win-popup').dialog({
+ 		modal: true,
+ 		title: null,
+ 		closeText: "hide",
+ 		classes: {
+ 			"ui-dialog-titlebar": "win-popup-titlebar"
+ 		},
+ 		buttons: [
+    		{
+      			text: "Close",
+     			click: function() {
+        			$( this ).dialog( "close" );
+      			}
+    		},
+    		{
+    			text: "Play Again",
+    			click: function() {
+    				clearGrid();
+    				$( this ).dialog( "close" );
+    			}
+    		}
+  		],
+	});
+}
+
 
 /*Top-level function to respond to a click; calls flipImage and checkMatch, and ends the 
 game if the user has completed all matches*/
@@ -136,21 +174,7 @@ function respondToClick(cell, level) {
 	checkMatch();
 	setTimeout(function() {
 		if (matches === (level*level)/2) {
-			$('.win-popup').css('display','block');
-			$('.win-popup').dialog({
-     			resizable: false,
-     			height:140,
-     			modal: true,
-			    buttons: {
-			       "Play again": function() {
-				        $( this ).dialog( "close" );
-				        $('.game-row').remove();
-						$('.play-buttons').css('display','block');
-						$('.game-data').css('display','none');
-						$('.reset').css('display','none');
-			        }
-				}
-			});
+			declareWin();
 		}
 	}, 200);
 }
