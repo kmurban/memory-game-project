@@ -110,6 +110,19 @@ function flipImage(cell) {
 	}
 }
 
+function checkMatch() {
+	if (imageTwo != null && imageOne.attr('src') != imageTwo.attr('src')) {
+		setTimeout(hideImages,500);
+		setTimeout(resetImages,600);
+		setTimeout(incrementMoves,600);
+	} else if (imageTwo != null && imageOne.attr('src') === imageTwo.attr('src')) {
+		matches++;
+		$(imageOne).attr('alt','matched');
+		$(imageTwo).attr('alt','matched');
+		setTimeout(resetImages,100);
+	}
+}
+
 function createImages(level) {
 	let images = makeImageArray(level);
 	let cells = $('.game-cell').get();
@@ -124,16 +137,7 @@ function createImages(level) {
 			return;
 		}
 		flipImage($(this));
-		if (imageTwo != null && imageOne.attr('src') != imageTwo.attr('src')) {
-			setTimeout(hideImages,500);
-			setTimeout(resetImages,600);
-			setTimeout(incrementMoves,600);
-		} else if (imageTwo != null && imageOne.attr('src') === imageTwo.attr('src')) {
-			matches++;
-			$(imageOne).attr('alt','matched');
-			$(imageTwo).attr('alt','matched');
-			setTimeout(resetImages,100);
-		}
+		checkMatch();
 		setTimeout(function() {
 			if (matches === (level*level)/2) {
 				alert('You won!');
