@@ -100,6 +100,9 @@ function resetImages() {
 	imageTwo = null;
 }
 
+/*Displays an image on click, and assigns the image to one of two variables
+in preparation for checking for a match*/
+
 function flipImage(cell) {
 	if (imageOne == null) {
 		imageOne = $(cell).children().first();
@@ -109,6 +112,11 @@ function flipImage(cell) {
 		$(imageTwo).css('visibility','visible');
 	}
 }
+
+/*Checks whether two flipped images match, and responds accordingly:
+for a non-match, hides the images after a half-second delay and adds a move
+for a match, records the images as matched using the 'alt' attribute
+in all cases, sets the image variables back to null to prepare for the next click*/
 
 function checkMatch() {
 	if (imageTwo != null && imageOne.attr('src') != imageTwo.attr('src')) {
@@ -123,6 +131,14 @@ function checkMatch() {
 	}
 }
 
+function respondToClick(cell) {
+	if($(cell).children().first().attr('alt') === 'matched') {
+		return;
+	}
+	flipImage($(cell));
+	checkMatch();
+}
+
 function createImages(level) {
 	let images = makeImageArray(level);
 	let cells = $('.game-cell').get();
@@ -133,11 +149,7 @@ function createImages(level) {
 		initImage(thisImage, "img/"+String(images[i])+".png");
 	}
 	$('.game-cell').click(function(){
-		if($(this).children().first().attr('alt') === 'matched') {
-			return;
-		}
-		flipImage($(this));
-		checkMatch();
+		respondToClick($(this));
 		setTimeout(function() {
 			if (matches === (level*level)/2) {
 				alert('You won!');
