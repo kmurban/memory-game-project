@@ -9,9 +9,7 @@ let matches = 0;
 let imageOne = null;
 let imageTwo = null;
 
-/*Changes the color of the buttons when they are moused over; 
-this helps make it clear that these are clickable elements */
-
+/*Change the color of the buttons when they are moused over*/
 $('button').mouseover(function(){
 	$(this).css('background-color','#637fa3');
 });
@@ -20,9 +18,7 @@ $('button').mouseout(function(){
 	$(this).css('background-color','#ffffff');
 });
 
-/*These functions Initialize the grid when the user selects a play level, 
-and replace the Play buttons with game data when the game begins*/
-
+/*Initialize the grid when the user selects a play levele*/
 $('.play-regular').click(function(){
 	makeGrid(4);
 	createImages(4);
@@ -33,6 +29,7 @@ $('.play-hard').click(function(){
 	// createImages(6);
 });
 
+/*Replace the Play buttons with game data when the game begins*/
 $('.play-button').click(function(){
 	$('.play-buttons').css('display','none');
 	$('.game-data').css('display','block');
@@ -40,9 +37,16 @@ $('.play-button').click(function(){
 	$('.move-counter').text('Moves: '+String(moves));
 });
 
+/*Clear the grid and bring the Play buttons back up when the user clicks the Start Over button*/
+$('.reset-button').click(function(){
+	$('.game-row').remove();
+	$('.play-buttons').css('display','block');
+	$('.game-data').css('display','none');
+	$('.reset').css('display','none');
+});
+
 /*Helper functions for makeGrid: makeRows creates stacked rows (divs) of the correct height
 fillRows places the correct number of cells (divs) in each row */
-
 function makeRows(level) {
 	for (i = 0; i < level; i++) {
 		$('<div class = "game-row"></div>').appendTo($('.game-grid'));
@@ -64,7 +68,6 @@ function fillRows(level){
 
 /*Builds a grid of the desired size for regular or hard plan, making 
 use of the helper functions makeRows and fillRows, defined above*/
-
 function makeGrid(level) {
 	moves = 0;
 	if ($(window).width() < $(window).height()) {
@@ -76,40 +79,13 @@ function makeGrid(level) {
 	fillRows(level);
 }
 
-
-/*Creates an array of the correct size depending on level
-Populates the array with a whole number for each matchable image*/
-
-function makeImageArray(level) {
-	let images = [];
-	let numImages = (level*level)/2;
-	for (i = 0; i < 2; i++) {
-		for (j = 1; j < numImages+1; j++) {
-			images.push(j);
-		}
-	}
-	return images;
-}
-
-function initImage(image, string) {
-	$(image).attr('src', string);
-	$(image).attr('alt', string);
-}
-
-function incrementMoves() {
-	moves++;
-	$('.move-counter').text('Moves: ' + String(moves));;
-}
-
 /*Hides images after an unsuccessful match attempt*/
-
 function hideImages(){
 	$(imageOne).css('visibility','hidden');
 	$(imageTwo).css('visibility','hidden');
 }
 
-/*Sets both image variables back to null after an attemtped match*/
-
+/*Sets both image variables back to null after a match attempt*/
 function resetImages() {
 	imageOne = null;
 	imageTwo = null;
@@ -117,7 +93,6 @@ function resetImages() {
 
 /*Displays an image on click, and assigns the image to one of two variables
 in preparation for checking for a match*/
-
 function flipImage(cell) {
 	if (imageOne == null) {
 		imageOne = $(cell).children().first();
@@ -128,11 +103,16 @@ function flipImage(cell) {
 	}
 }
 
+/*Increments the move counter after a match attempt*/
+function incrementMoves() {
+	moves++;
+	$('.move-counter').text('Moves: ' + String(moves));;
+}
+
 /*Checks whether two flipped images match, and responds accordingly:
 for a non-match, hides the images after a half-second delay and adds a move
 for a match, records the images as matched using the 'alt' attribute
 in all cases, sets the image variables back to null to prepare for the next click*/
-
 function checkMatch() {
 	if (imageTwo != null && imageOne.attr('src') != imageTwo.attr('src')) {
 		setTimeout(hideImages,500);
@@ -148,7 +128,6 @@ function checkMatch() {
 
 /*Top-level function to respond to a click; calls flipImage and checkMatch, and ends the 
 game if the user has completed all matches*/
-
 function respondToClick(cell, level) {
 	if($(cell).children().first().attr('alt') === 'matched') {
 		return;
@@ -162,10 +141,28 @@ function respondToClick(cell, level) {
 	},200);
 }
 
+/*Creates an array of the correct size depending on level
+Populates the array with a whole number for each matchable image*/
+function makeImageArray(level) {
+	let images = [];
+	let numImages = (level*level)/2;
+	for (i = 0; i < 2; i++) {
+		for (j = 1; j < numImages+1; j++) {
+			images.push(j);
+		}
+	}
+	return images;
+}
+
+/*Initializes source and alt attributes when an image is added to the grid*/
+function initImage(image, string) {
+	$(image).attr('src', string);
+	$(image).attr('alt', string);
+}
+
 /*Adds images in random order to the game grid; note: assumes image files are stored in 
 the "img" folder and are in the format #.png
 Also adds an event listener for each grid cell to handle impage flipping and matching*/
-
 function createImages(level) {
 	let images = makeImageArray(level);
 	let cells = $('.game-cell').get();
@@ -179,15 +176,6 @@ function createImages(level) {
 		respondToClick($(this), level);
 	});
 }
-
-/*Clears the grid and brings the Play buttons back up when the user clicks the Start Over button*/
-
-$('.reset-button').click(function(){
-	$('.game-row').remove();
-	$('.play-buttons').css('display','block');
-	$('.game-data').css('display','none');
-	$('.reset').css('display','none');
-});
 
 
 
