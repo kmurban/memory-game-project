@@ -17,8 +17,8 @@
 			<button class="play-button play-hard">Play Hard</button>
 		</section>
 		<section class="game-data">
-			<!-- <span class="stars">&starf; &starf; &starf;</span>
-			<span class="timer">Timer</span> -->
+			<span class="stars">&starf; &starf; &starf;</span>
+			<span class="minutes">00</span><span>:</span><span class = "seconds">00</span>
 			<span class="move-counter">Moves: 0</span>
 		</section>
 		
@@ -35,9 +35,11 @@
 	</main>
 
 	<section class = "win-popup">
-		<h1>You won!</h1>
-		<p>Game stats: 
-		<br><span class="move-score"></span> Moves</p>
+		<h2 autofocus>You won!</h2> 
+		<ul>
+			<li>Moves: <span class="move-score"></span></li>
+			<li>Time: <span class="minutes-score"></span> Minutes, <span class="seconds-score"></span> Seconds</li>
+		</ul>
 	</section>
 
 	<footer>
