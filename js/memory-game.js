@@ -56,6 +56,8 @@ function makeGrid(level) {
 	fillRows(level);
 }
 
+
+
 function makeImageArray(level) {
 	let images = [];
 	let numImages = (level*level)/2;
@@ -70,6 +72,7 @@ function makeImageArray(level) {
 function fillImages(level) {
 	let images = makeImageArray(level);
 	let cells = $('.game-cell').get();
+	cells.sort(function(a, b){return 0.5 - Math.random()});
 	console.log(cells);
 	for (i = 0; i < cells.length; i++) {
 		let thisCell = cells[i];

@@ -52,7 +52,7 @@ main {
 }
 
 .game-image {
-	display: none;
+/*	display: none;*/
 	box-sizing: border-box;
 	border: 1px solid white;
 }
