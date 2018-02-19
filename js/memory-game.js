@@ -1,3 +1,8 @@
+
+/*This section declares global variables we'll need throughout the program:
+the size of the grid, number of moves the user has made, number of image matches
+found, and dynamic variables to hold the flipped images*/
+
 let cellSize = 0;
 let moves = 0;
 let matches = 0;
@@ -5,7 +10,7 @@ let imageOne = null;
 let imageTwo = null;
 
 /*Changes the color of the buttons when they are moused over; 
-this helps make it clear that these are clickable elements) */
+this helps make it clear that these are clickable elements */
 
 $('button').mouseover(function(){
 	$(this).css('background-color','#637fa3');
@@ -15,7 +20,18 @@ $('button').mouseout(function(){
 	$(this).css('background-color','#ffffff');
 });
 
-//Replace the Play buttons with game data when the user starts the game
+/*These functions Initialize the grid when the user selects a play level, 
+and replace the Play buttons with game data when the game begins*/
+
+$('.play-regular').click(function(){
+	makeGrid(4);
+	createImages(4);
+});
+
+$('.play-hard').click(function(){
+	makeGrid(6);
+	// createImages(6);
+});
 
 $('.play-button').click(function(){
 	$('.play-buttons').css('display','none');
@@ -24,8 +40,7 @@ $('.play-button').click(function(){
 	$('.move-counter').text('Moves: '+String(moves));
 });
 
-/*Helper functions for makeGrid
-makeRows creates stacked rows (divs) of the correct height
+/*Helper functions for makeGrid: makeRows creates stacked rows (divs) of the correct height
 fillRows places the correct number of cells (divs) in each row */
 
 function makeRows(level) {
@@ -147,8 +162,8 @@ function respondToClick(cell, level) {
 	},200);
 }
 
-/*Adds images in random order to the game grid
-Note: assumes image files are stored in the "img" folder and are in the format #.png
+/*Adds images in random order to the game grid; note: assumes image files are stored in 
+the "img" folder and are in the format #.png
 Also adds an event listener for each grid cell to handle impage flipping and matching*/
 
 function createImages(level) {
@@ -165,20 +180,7 @@ function createImages(level) {
 	});
 }
 
-//Initializes the grid when the user selects a play level
-
-$('.play-regular').click(function(){
-	makeGrid(4);
-	createImages(4);
-});
-
-$('.play-hard').click(function(){
-	makeGrid(6);
-	// createImages(6);
-});
-
-
-//Clears the grid and brings the Play buttons back up when the user clicks the Start Over buttons
+/*Clears the grid and brings the Play buttons back up when the user clicks the Start Over button*/
 
 $('.reset-button').click(function(){
 	$('.game-row').remove();
