@@ -20,6 +20,10 @@ $('.play-button').click(function(){
 	$('.reset').css('display','block');
 });
 
+//Helper functions for makeGrid
+//makeRows creates stacked rows (divs) of the correct height
+//fillRows places the correct number of cells (divs) in each row
+
 function makeRows(level) {
 	for (i = 0; i < level; i++) {
 		$('<div class = "game-row"></div>').appendTo($('.game-grid'));
@@ -39,30 +43,54 @@ function fillRows(level){
 	$('.game-cell').css('height', cellSize);
 }
 
-//Build a grid of the desired size
+//Build a grid of the desired size for regular or hard plan
+//Makes use of the helper functions makeRows and fillRows, defined above
 
 function makeGrid(level) {
 	if ($(window).width() < $(window).height()) {
-		cellSize = $(window).width()*0.7*(1/(level + 0.25));
+		cellSize = $(window).width()*0.8*(1/(level + 0.5));
 	} else {
-		cellSize = $(window).height()*0.7*(1/(level + 0.25));
+		cellSize = $(window).height()*0.8*(1/(level + 0.5));
 	}
 	makeRows(level);
 	fillRows(level);
 }
 
+function makeImageArray(level) {
+	let images = [];
+	let numImages = (level*level)/2;
+	for (i = 0; i < 2; i++) {
+		for (j = 1; j < numImages+1; j++) {
+			images.push(j);
+		}
+	}
+	return images;
+}
+
+function fillImages(level) {
+	let images = makeImageArray(level);
+	let cells = $('.game-cell').get();
+	console.log(cells);
+	for (i = 0; i < cells.length; i++) {
+		let thisCell = cells[i];
+		let thisImageSrc = "img/"+String(images[i])+".png";
+		$('<img class = "game-image" src = "" alt = "">').appendTo(thisCell);
+		let thisImage = $(thisCell).children().first();
+		$(thisImage).attr('src', thisImageSrc);
+		$(thisImage).attr('alt', thisImageSrc);
+		$(thisImage).css('width',cellSize*0.9);
+	}
+}
+
 //Initialize the grid when the user selects a play level
 
-$('.play-easy').click(function(){
-	makeGrid(3);
-});
-
-$('.play-medium').click(function(){
+$('.play-regular').click(function(){
 	makeGrid(4);
+	fillImages(4);
 });
 
 $('.play-hard').click(function(){
-	makeGrid(5);
+	makeGrid(6);
 });
 
 //Clears the grid and brings the Play buttons back up when the user clicks the Start Over buttons

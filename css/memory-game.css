@@ -1,5 +1,5 @@
 body {
-	width: 100vw;
+	width: 97vw;
 	font-family: "Montserrat", Verdana, sans-serif;
 }
 
@@ -10,9 +10,10 @@ header {
 button {
 	background-color: #ffffff;
     border: 1px solid black;
-    border-radius: 2px;
     color: black;
+    font-size: 16px;
     padding: 5px;
+    margin: 10px;
 }
 
 main {
@@ -24,11 +25,6 @@ main {
 }
 
 .reset-button {
-	margin: 10px;
-}
-
-.play-buttons {
-
 }
 
 .game-data {
@@ -36,10 +32,10 @@ main {
 }
 
 .game-grid {
-	width: 70%;
-	margin-top: 20px;
-	margin-left: 15%;
-	margin-right: 15%;
+	width: 90%;
+	margin-top: 10px;
+	margin-left: 5%;
+	margin-right: 5%;
 }
 
 .game-row {
@@ -55,7 +51,17 @@ main {
 	border: 3px solid white;
 }
 
+.game-image {
+	display: none;
+	box-sizing: border-box;
+	border: 1px solid white;
+}
+
 .win-popup {
 
 
 }
+
+
+
+
