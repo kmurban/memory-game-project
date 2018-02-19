@@ -81,19 +81,19 @@ function initImage(image, string) {
 	$(image).attr('alt', string);
 }
 
-/*Adds images in random order to the game grid
-Note: assumes image files are stored in the "img" folder
-and are in the format #.png*/
-
 function incrementMoves() {
 	moves++;
 	$('.move-counter').text('Moves: ' + String(moves));;
 }
 
+/*Hides images after an unsuccessful match attempt*/
+
 function hideImages(){
 	$(imageOne).css('visibility','hidden');
 	$(imageTwo).css('visibility','hidden');
 }
+
+/*Sets both image variables back to null after an attemtped match*/
 
 function resetImages() {
 	imageOne = null;
@@ -131,13 +131,25 @@ function checkMatch() {
 	}
 }
 
-function respondToClick(cell) {
+/*Top-level function to respond to a click; calls flipImage and checkMatch, and ends the 
+game if the user has completed all matches*/
+
+function respondToClick(cell, level) {
 	if($(cell).children().first().attr('alt') === 'matched') {
 		return;
 	}
 	flipImage($(cell));
 	checkMatch();
+	setTimeout(function() {
+		if (matches === (level*level)/2) {
+			alert('You won!');
+		}
+	},200);
 }
+
+/*Adds images in random order to the game grid
+Note: assumes image files are stored in the "img" folder and are in the format #.png
+Also adds an event listener for each grid cell to handle impage flipping and matching*/
 
 function createImages(level) {
 	let images = makeImageArray(level);
@@ -149,12 +161,7 @@ function createImages(level) {
 		initImage(thisImage, "img/"+String(images[i])+".png");
 	}
 	$('.game-cell').click(function(){
-		respondToClick($(this));
-		setTimeout(function() {
-			if (matches === (level*level)/2) {
-				alert('You won!');
-			}
-		},200);
+		respondToClick($(this), level);
 	});
 }
 
