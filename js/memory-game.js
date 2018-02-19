@@ -51,6 +51,7 @@ function fillRows(level){
 use of the helper functions makeRows and fillRows, defined above*/
 
 function makeGrid(level) {
+	moves = 0;
 	if ($(window).width() < $(window).height()) {
 		cellSize = $(window).width()*0.8*(1/(level + 0.5));
 	} else {
@@ -78,7 +79,6 @@ function makeImageArray(level) {
 function initImage(image, string) {
 	$(image).attr('src', string);
 	$(image).attr('alt', string);
-	$(image).css('width',cellSize*0.95);
 }
 
 /*Adds images in random order to the game grid
@@ -100,6 +100,16 @@ function resetImages() {
 	imageTwo = null;
 }
 
+function flipImage(cell) {
+	if (imageOne == null) {
+		imageOne = $(cell).children().first();
+		$(imageOne).css('visibility','visible');
+	} else if (imageTwo == null) {
+		imageTwo = $(cell).children().first();
+		$(imageTwo).css('visibility','visible');
+	}
+}
+
 function createImages(level) {
 	let images = makeImageArray(level);
 	let cells = $('.game-cell').get();
@@ -113,13 +123,7 @@ function createImages(level) {
 		if($(this).children().first().attr('alt') === 'matched') {
 			return;
 		}
-		if (imageOne == null) {
-			imageOne = $(this).children().first();
-			$(imageOne).css('visibility','visible');
-		} else if (imageTwo == null) {
-			imageTwo = $(this).children().first();
-			$(imageTwo).css('visibility','visible');
-		}
+		flipImage($(this));
 		if (imageTwo != null && imageOne.attr('src') != imageTwo.attr('src')) {
 			setTimeout(hideImages,500);
 			setTimeout(resetImages,600);
@@ -128,12 +132,13 @@ function createImages(level) {
 			matches++;
 			$(imageOne).attr('alt','matched');
 			$(imageTwo).attr('alt','matched');
+			setTimeout(resetImages,100);
+		}
+		setTimeout(function() {
 			if (matches === (level*level)/2) {
 				alert('You won!');
-			} else {
-				setTimeout(resetImages,100);
 			}
-		}
+		},200);
 	});
 }
 
@@ -146,7 +151,7 @@ $('.play-regular').click(function(){
 
 $('.play-hard').click(function(){
 	makeGrid(6);
-	createImages(6);
+	// createImages(6);
 });
 
 
