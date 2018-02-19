@@ -1,7 +1,8 @@
 
-/*Global variables we'll need throughout the program: the number of moves the user has made, 
+/*Global variables we'll need throughout the program: game level selected by the user, number of moves made, 
 number of image matches found, dynamic variables to hold the flipped images, and game timer*/
 
+let level = 0;
 let moves = 0;
 let matches = 0;
 let minutes = 0;
@@ -35,8 +36,9 @@ function updateTime() {
 
 /*Event listeners: Initialize the grid and start the timer when the user selects a play level*/
 $('.play-regular').click(function(){
-	makeGrid(2);
-	createImages(2);
+	level = 2;
+	makeGrid();
+	createImages();
 	timer = setInterval(function(){
 		seconds++;
 		if (seconds === 60){
@@ -48,6 +50,7 @@ $('.play-regular').click(function(){
 });
 
 $('.play-hard').click(function(){
+	level = 6;
 	makeGrid(6);
 	// createImages(6);
 	timer = setInterval(function(){
@@ -101,14 +104,14 @@ $('.reset-button').click(function(){
 
 /*makeGrid helpers: makeRows creates stacked rows (divs) of the correct height
 fillRows places the correct number of cells (divs) in each row */
-function makeRows(level, cellSize) {
+function makeRows(cellSize) {
 	for (i = 0; i < level; i++) {
 		$('<div class = "game-row"></div>').appendTo($('.game-grid'));
 	}
 	$('.game-row').css('height', cellSize);
 }
 
-function fillRows(level, cellSize){
+function fillRows(cellSize){
 	var rows = $('.game-row').get();
 	for (i = 0; i < rows.length; i++){
 		var thisRow = rows[i];
@@ -122,15 +125,16 @@ function fillRows(level, cellSize){
 
 /*Builds a grid of the desired size for regular or hard plan, making 
 use of the helper functions makeRows and fillRows, defined above*/
-function makeGrid(level) {
+function makeGrid() {
+	console.log(level);
 	let cellSize = 0;
 	if ($(window).width() < $(window).height()) {
 		cellSize = $(window).width()*0.8*(1/(level + 0.5));
 	} else {
 		cellSize = $(window).height()*0.8*(1/(level + 0.5));
 	}
-	makeRows(level, cellSize);
-	fillRows(level, cellSize);
+	makeRows(cellSize);
+	fillRows(cellSize);
 }
 
 /*respondToClick helper: Hides images after an unsuccessful match attempt*/
@@ -214,7 +218,7 @@ function declareWin() {
 
 
 /*Responds to a click: calls flipImage and checkMatch, and ends the game if the user has completed all matches*/
-function respondToClick(cell, level) {
+function respondToClick(cell) {
 	if($(cell).children().first().attr('alt') === 'matched') {
 		return;
 	}
@@ -229,7 +233,7 @@ function respondToClick(cell, level) {
 }
 
 /*createImages helper: Creates and populates an array of image files*/
-function makeImageArray(level) {
+function makeImageArray() {
 	let images = [];
 	let numImages = (level*level)/2;
 	for (i = 0; i < 2; i++) {
@@ -249,7 +253,7 @@ function initImage(image, string) {
 /*Adds images in random order to the grid and adds an event listener for each grid cell to handle impage flipping and matching 
 Note: createImages assumes image files are stored in the "img" folder and are in the format #.png*/
 
-function createImages(level) {
+function createImages() {
 	let images = makeImageArray(level);
 	let cells = $('.game-cell').get();
 	images.sort(function(a, b){return 0.5 - Math.random()});
