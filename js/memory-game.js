@@ -136,9 +136,23 @@ function respondToClick(cell, level) {
 	checkMatch();
 	setTimeout(function() {
 		if (matches === (level*level)/2) {
-			alert('You won!');
+			$('.win-popup').css('display','block');
+			$('.win-popup').dialog({
+     			resizable: false,
+     			height:140,
+     			modal: true,
+			    buttons: {
+			       "Play again": function() {
+				        $( this ).dialog( "close" );
+				        $('.game-row').remove();
+						$('.play-buttons').css('display','block');
+						$('.game-data').css('display','none');
+						$('.reset').css('display','none');
+			        }
+				}
+			});
 		}
-	},200);
+	}, 200);
 }
 
 /*Creates an array of the correct size depending on level

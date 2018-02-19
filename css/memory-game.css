@@ -60,8 +60,7 @@ main {
 }
 
 .win-popup {
-
-
+	display: none;
 }
 
 
