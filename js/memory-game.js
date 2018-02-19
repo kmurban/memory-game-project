@@ -110,6 +110,9 @@ function createImages(level) {
 		initImage(thisImage, "img/"+String(images[i])+".png");
 	}
 	$('.game-cell').click(function(){
+		if($(this).children().first().attr('alt') === 'matched') {
+			return;
+		}
 		if (imageOne == null) {
 			imageOne = $(this).children().first();
 			$(imageOne).css('visibility','visible');
@@ -123,6 +126,8 @@ function createImages(level) {
 			setTimeout(incrementMoves,600);
 		} else if (imageTwo != null && imageOne.attr('src') === imageTwo.attr('src')) {
 			matches++;
+			$(imageOne).attr('alt','matched');
+			$(imageTwo).attr('alt','matched');
 			if (matches === (level*level)/2) {
 				alert('You won!');
 			} else {
