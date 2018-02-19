@@ -52,7 +52,8 @@ main {
 }
 
 .game-image {
-/*	display: none;*/
+	visibility: hidden;
+	position: relative;
 	box-sizing: border-box;
 	border: 1px solid white;
 }
