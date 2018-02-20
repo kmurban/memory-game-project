@@ -1,15 +1,16 @@
 
-/*Initialize the global variables we'll need throughout the program: game level selected by the user, number of moves made, 
-number of image matches found, dynamic variables to hold the flipped images, and game timer*/
+/*Initialize the global variables we'll need throughout the program: game level selected by the user, 
+number of moves made, number of image matches found, star score, dynamic variables to hold the flipped images, 
+and game timer*/
 
 let level = 0;
 let moves = 0;
 let matches = 0;
-let minutes = 0;
-let seconds = 0;
 let score = 3;
 let imageOne = null;
 let imageTwo = null;
+let minutes = 0;
+let seconds = 0;
 let timer = null;
 
 /*Event listeners: Change the color of the buttons when they are moused over*/
@@ -160,11 +161,11 @@ function flipImage(cell) {
 /*incrementMoves helper: Determines move thresholds and removes a star at each threshold*/
 
 function updateScore(){
-	if (moves > (level*(level+2))) {
+	if (moves > (level*(level+1))) {
 		$('.star-three').html('&star;');
 		score = 2;
 	}
-	if (moves > (level*(level+4))){
+	if (moves > (level*(level+3))){
 		$('.star-two').html('&star;');
 		score = 1;
 	}
@@ -289,7 +290,6 @@ function initImage(image, string) {
 
 /*Adds images in random order to the grid and adds an event listener for each grid cell to handle impage flipping and matching 
 Note: createImages assumes image files are stored in the "img" folder and are in the format #.png*/
-
 function createImages() {
 	let images = makeImageArray(level);
 	let cells = $('.game-cell').get();
