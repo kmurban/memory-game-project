@@ -1,5 +1,5 @@
 
-/*Global variables we'll need throughout the program: game level selected by the user, number of moves made, 
+/*Initialize the global variables we'll need throughout the program: game level selected by the user, number of moves made, 
 number of image matches found, dynamic variables to hold the flipped images, and game timer*/
 
 let level = 0;
@@ -7,6 +7,7 @@ let moves = 0;
 let matches = 0;
 let minutes = 0;
 let seconds = 0;
+let score = 3;
 let imageOne = null;
 let imageTwo = null;
 let timer = null;
@@ -36,7 +37,7 @@ function updateTime() {
 
 /*Event listeners: Initialize the grid and start the timer when the user selects a play level*/
 $('.play-regular').click(function(){
-	level = 2;
+	level = 4;
 	makeGrid();
 	createImages();
 	timer = setInterval(function(){
@@ -68,7 +69,7 @@ $('.play-button').click(function(){
 	$('.play-buttons').css('display','none');
 	$('.game-data').css('display','block');
 	$('.reset').css('display','block');
-	$('.move-counter').text('Moves: '+String(moves));
+	$('.move-counter').text('0');
 });
 
 /*clearGame helper: Resets the game timer, move count, match count, and score*/
@@ -77,6 +78,8 @@ function resetData() {
 	matches = 0;
 	minutes = 0;
 	seconds = 0;
+	score = 3;
+	$('.star').html('&starf;')
 	clearInterval(timer);
 	updateTime();
 }
@@ -155,10 +158,25 @@ function flipImage(cell) {
 	}
 }
 
-/*respondToClick helper: Increments the move counter after a match attempt*/
+/*incrementMoves helper: Determines move thresholds and removes a star at each threshold*/
+
+function updateScore(){
+	if (moves > (level*level)) {
+		$('.starThree').html('&star;');
+		score = 2;
+	}
+	if (moves > (level*(level+2))){
+		$('.starTwo').html('&star;');
+		score = 1;
+	}
+}
+
+/*respondToClick helper: Increments the move counter after a match attempt, and updates the star score
+if the user has crossed a move threshold*/
 function incrementMoves() {
 	moves++;
-	$('.move-counter').text('Moves: ' + String(moves));;
+	$('.move-counter').text(moves);
+	updateScore();
 }
 
 /*respondToClick helper: Checks whether two flipped images match, and responds accordingly: for a non-match, 
@@ -178,12 +196,32 @@ function checkMatch() {
 	}
 }
 
-/*Populates modal text and handles modal popup behavior when the user wins the game*/
-function declareWin() {
+/*Responds to a click: calls flipImage and checkMatch, and ends the game if the user has completed all matches*/
+function respondToClick(cell) {
+	if($(cell).children().first().attr('alt') === 'matched') {
+		return;
+	}
+	flipImage($(cell));
+	checkMatch();
+	setTimeout(function() {
+		if (matches === (level*level)/2) {
+			clearInterval(timer);
+			declareWin();
+		}
+	}, 200);
+}
+
+/*declareWin helper: Populates the win modal with the correct time, moves, and score*/
+function buildWinPopup(){
 	$('.win-popup').css('display','block');
 	$('.move-score').text(moves);
 	$('.minutes-score').text(minutes);
 	$('.seconds-score').text(seconds);
+}
+
+/*Handles modal popup behavior when the user wins the game*/
+function declareWin() {
+	buildWinPopup();
 	$('.win-popup').dialog({
  		modal: true,
  		classes: {
@@ -214,22 +252,6 @@ function declareWin() {
     		}
   		],
 	});
-}
-
-
-/*Responds to a click: calls flipImage and checkMatch, and ends the game if the user has completed all matches*/
-function respondToClick(cell) {
-	if($(cell).children().first().attr('alt') === 'matched') {
-		return;
-	}
-	flipImage($(cell));
-	checkMatch();
-	setTimeout(function() {
-		if (matches === (level*level)/2) {
-			clearInterval(timer);
-			declareWin();
-		}
-	}, 200);
 }
 
 /*createImages helper: Creates and populates an array of image files*/
