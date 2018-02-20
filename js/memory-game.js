@@ -79,7 +79,7 @@ function resetData() {
 	minutes = 0;
 	seconds = 0;
 	score = 3;
-	$('.star').html('&starf;')
+	$('.star').html('&starf;');
 	clearInterval(timer);
 	updateTime();
 }
@@ -129,7 +129,6 @@ function fillRows(cellSize){
 /*Builds a grid of the desired size for regular or hard plan, making 
 use of the helper functions makeRows and fillRows, defined above*/
 function makeGrid() {
-	console.log(level);
 	let cellSize = 0;
 	if ($(window).width() < $(window).height()) {
 		cellSize = $(window).width()*0.8*(1/(level + 0.5));
@@ -161,12 +160,12 @@ function flipImage(cell) {
 /*incrementMoves helper: Determines move thresholds and removes a star at each threshold*/
 
 function updateScore(){
-	if (moves > (level*level)) {
-		$('.starThree').html('&star;');
+	if (moves > (level*(level+2))) {
+		$('.star-three').html('&star;');
 		score = 2;
 	}
-	if (moves > (level*(level+2))){
-		$('.starTwo').html('&star;');
+	if (moves > (level*(level+4))){
+		$('.star-two').html('&star;');
 		score = 1;
 	}
 }
@@ -217,6 +216,22 @@ function buildWinPopup(){
 	$('.move-score').text(moves);
 	$('.minutes-score').text(minutes);
 	$('.seconds-score').text(seconds);
+	switch(score) {
+		case 1:
+			$('.star-score-one').html('&starf;');
+			$('.star-score-two').html('&star;');
+			$('.star-score-three').html('&star;');
+			break;
+		case 2:
+			$('.star-score-one').html('&starf;');
+			$('.star-score-two').html('&starf;');
+			$('.star-score-three').html('&star;');
+			break;
+		default:
+			$('.star-score-one').html('&starf;');
+			$('.star-score-two').html('&starf;');
+			$('.star-score-three').html('&starf;');
+	}
 }
 
 /*Handles modal popup behavior when the user wins the game*/
