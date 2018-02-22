@@ -146,20 +146,7 @@ function hideImages(){
 	$(imageTwo).css('visibility','hidden');
 }
 
-/*respondToClick helper: Displays an image on click, and assigns the image to one of two variables
-in preparation for checking for a match*/
-function flipImage(cell) {
-	if (imageOne == null) {
-		imageOne = $(cell).children().first();
-		$(imageOne).css('visibility','visible');
-	} else if (imageTwo == null) {
-		imageTwo = $(cell).children().first();
-		$(imageTwo).css('visibility','visible');
-	}
-}
-
 /*incrementMoves helper: Determines move thresholds and removes a star at each threshold*/
-
 function updateScore(){
 	if (moves > (level*(level+1))) {
 		$('.star-three').html('&star;');
@@ -196,9 +183,21 @@ function checkMatch() {
 	}
 }
 
+/*respondToClick helper: Displays an image on click, and assigns the image to one of two variables
+in preparation for checking for a match*/
+function flipImage(cell) {
+	if (imageOne == null) {
+		imageOne = $(cell).children().first();
+		$(imageOne).css('visibility','visible');
+	} else if (imageTwo == null) {
+		imageTwo = $(cell).children().first();
+		$(imageTwo).css('visibility','visible');
+	}
+}
+
 /*Responds to a click: calls flipImage and checkMatch, and ends the game if the user has completed all matches*/
 function respondToClick(cell) {
-	if($(cell).children().first().attr('alt') === 'matched') {
+	if($(cell).children().first().attr('alt') === 'matched' || $(cell).children().first().css('visibility') === 'visible' ) {
 		return;
 	}
 	flipImage($(cell));
@@ -291,7 +290,7 @@ function initImage(image, string) {
 /*Adds images in random order to the grid and adds an event listener for each grid cell to handle impage flipping and matching 
 Note: createImages assumes image files are stored in the "img" folder and are in the format #.png*/
 function createImages() {
-	let images = makeImageArray(level);
+	let images = makeImageArray();
 	let cells = $('.game-cell').get();
 	images.sort(function(a, b){return 0.5 - Math.random()});
 	for (i = 0; i < cells.length; i++) {
@@ -300,7 +299,7 @@ function createImages() {
 		initImage(thisImage, "img/"+String(images[i])+".png");
 	}
 	$('.game-cell').click(function(){
-		respondToClick($(this), level);
+		respondToClick($(this));
 	});
 }
 
