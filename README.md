@@ -13,6 +13,10 @@ To play the game:
 * Click on cards to reveal images
 * If you want to restart the game, click the "Start Over" button below the game grid
 
+## Dependencies
+
+Code for the game uses the jQuery and jQuery UI libraries. These libraries are linked in the scripts section at the bottom of the index.html file. 
+
 ## Limitations
 
 You can play this game on a smartphone, tablet, laptop, or desktop computer, in a browser window of any (reasonable) size — but please note that the game grid will not resize dynamically, so you should begin the game in a window of the size you plan to play in. This will most often be an issue when using a resizable browser window on a laptop or tablet. 
