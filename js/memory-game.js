@@ -53,8 +53,8 @@ $('.play-regular').click(function(){
 
 $('.play-hard').click(function(){
 	level = 6;
-	makeGrid(6);
-	createImages(6);
+	makeGrid();
+	createImages();
 	timer = setInterval(function(){
 		seconds++;
 		if (seconds === 60){
